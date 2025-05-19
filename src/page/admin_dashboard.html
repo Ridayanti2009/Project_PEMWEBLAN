@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-admin.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <img src="{{ url_for('static', filename='images/logo-admin.png') }}" alt="Logo" class="sidebar-logo">
+        <a href="{{ url_for('admin_dashboard') }}" class="active">Dashboard</a>
+        <a href="{{ url_for('laporan_list') }}">Daftar Laporan</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <div class="content">
+        <h1>Dashboard Admin</h1>
+
+        <div class="summary">
+            <div class="card">Total Laporan: {{ total }}</div>
+            <div class="card">Dikaji: {{ dikaji }}</div>
+            <div class="card">Diselidiki: {{ diselidiki }}</div>
+            <div class="card">Selesai: {{ selesai }}</div>
+        </div>
+
+        <div class="inbox">
+            <h3>Laporan Baru (Status: dikaji)</h3>
+            {% if laporan_baru %}
+                {% for laporan in laporan_baru %}
+                    <div class="laporan">
+                        <strong>{{ laporan.judul }}</strong><br>
+                        <em>{{ laporan.kategori }} - {{ laporan.tanggal }}</em><br>
+                        Lokasi: {{ laporan.lokasi }}<br>
+                        Nama: {% if laporan.anonim %}Anonim{% else %}{{ laporan.nama }}{% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Tidak ada laporan baru.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

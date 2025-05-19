@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Laporan</title>
+</head>
+<body>
+    <h2>Detail Laporan</h2>
+    <p><strong>Judul:</strong> {{ laporan.judul }}</p>
+    <p><strong>Kategori:</strong> {{ laporan.kategori }}</p>
+    <p><strong>Tanggal Kejadian:</strong> {{ laporan.tanggal }}</p>
+    <p><strong>Lokasi:</strong> {{ laporan.lokasi or 'Tidak Diisi' }}</p>
+    <p><strong>Isi Laporan:</strong><br>{{ laporan.isi_dekripsi }}</p>
+    <p><strong>Nama Pelapor:</strong> {{ laporan.nama_pelapor or 'Anonim' }}</p>
+    <p><strong>Kontak:</strong> {{ laporan.kontak or 'Tidak Diisi' }}</p>
+    {% if laporan.bukti %}
+        <p><strong>Bukti:</strong> <a href="{{ url_for('static', filename='bukti/' + laporan.bukti) }}" target="_blank">Lihat Bukti</a></p>
+    {% endif %}
+
+    <form method="POST" action="/admin/laporan/{{ laporan.id }}/tandai">
+        <button type="submit">Tandai Sudah Dibaca</button>
+    </form>
+
+    <form method="POST" action="/admin/laporan/{{ laporan.id }}/hapus" onsubmit="return confirm('Yakin ingin menghapus laporan ini?');">
+        <button type="submit">Hapus</button>
+    </form>
+
+    <a href="/admin/laporan">← Kembali ke Daftar</a>
+</body>
+</html>

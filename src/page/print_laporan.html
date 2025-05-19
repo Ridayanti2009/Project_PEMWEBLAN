@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cetak Laporan</title>
+  <!-- Tambahkan Font Awesome untuk ikon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/template-laporan.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Laporan Detail</h2>
+    </div>
+    
+    <div class="laporan">
+      <div class="laporan-info">
+        <div class="laporan-label">Judul</div>
+        <div class="laporan-value">:  {{ laporan.judul }}</div>
+      </div>
+      
+      <div class="laporan-info">
+        <div class="laporan-label">Kategori</div>
+        <div class="laporan-value">:  {{ laporan.kategori }}</div>
+      </div>
+      
+      <div class="laporan-info">
+        <div class="laporan-label">Lokasi</div>
+        <div class="laporan-value">:  {{ laporan.lokasi }}</div>
+      </div>
+      
+      <div class="laporan-info">
+        <div class="laporan-label">Tanggal</div>
+        <div class="laporan-value">:  {{ laporan.tanggal }}</div>
+      </div>
+      
+      <div class="laporan-info">
+        <div class="laporan-label">Isi</div>
+        <div class="laporan-value">:  {{ laporan.isi }}</div>
+      </div>      
+    </div>
+    
+    <div class="bukti-section">
+      {% if mimetype and mimetype.startswith('image/') %}
+        <img src="{{ url_for('download_bukti', laporan_id=laporan.id) }}" alt="Preview" class="bukti-image">
+      {% else %}
+        <i class="fas fa-file-alt" style="font-size: 48px; color: #0a1f44; margin-bottom: 10px;"></i><br>
+      {% endif %}
+    
+      <!-- Tambahkan pembungkus di bawah -->
+      <div class="tombol-aksi">
+        <a href="{{ url_for('download_bukti', laporan_id=laporan.id) }}" download class="download-link tombol">
+          <i class="fas fa-download"></i> Download {{ 'Gambar' if mimetype and mimetype.startswith('image/') else 'Dokumen' }}
+        </a>
+    
+        <button onclick="window.print()" class="print-button tombol">
+          <i class="fas fa-print"></i> Cetak Laporan
+        </button>
+      </div>
+    </div>
+    
+    
+  </div>
+</body>
+</html>
