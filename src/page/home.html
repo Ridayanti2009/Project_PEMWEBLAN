@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhistleBlowing Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/user.css') }}" rel="stylesheet">
+</head>
+    
+<body class="container mt-5">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="form-logo">
+    <h2><strong>WBS (Whistleblowing System) - Bersama Jaga Integritas</strong></h2>
+    <p class="lead">Silakan isi form di bawah ini untuk melaporkan kejadian yang mencurigakan.</p>
+    <form method="POST" action="/submit" enctype="multipart/form-data">
+        <!-- Kategori Laporan -->
+        <div class="mb-3">
+            <label for="kategori" class="form-label">Kategori Laporan</label>
+            <select class="form-select" name="kategori" id="kategori" required>
+                <option value="">-- Pilih Kategori --</option>
+                <option value="korupsi">Korupsi</option>
+                <option value="pelecehan">Pelecehan</option>
+                <option value="kekerasan">Kekerasan</option>
+                <option value="penipuan">Penipuan</option>
+                <option value="lainnya">Lainnya (Bisa diketik dibagan isi sebagai keterangan)</option>
+            </select>
+        </div>
+
+        <!-- Judul Laporan -->
+        <div class="mb-3">
+            <label for="judul" class="form-label">Judul Laporan</label>
+            <input type="text" class="form-control" name="judul" id="judul" required>
+        </div>
+
+        <!-- Isi Laporan -->
+        <div class="mb-3">
+            <label for="isi" class="form-label">Isi Laporan</label>
+            <textarea class="form-control" name="isi" id="isi" rows="5" required></textarea>
+        </div>
+
+        <!-- Bukti Pendukung -->
+        <div class="mb-3">
+            <label for="bukti" class="form-label">Bukti Pendukung (Wajib Di Isi)</label>
+            <input type="file" class="form-control" name="bukti" id="bukti" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" required>
+        </div>
+
+        <!-- Tanggal Kejadian -->
+        <div class="mb-3">
+            <label for="tanggal" class="form-label">Tanggal Kejadian</label>
+            <input type="date" class="form-control" name="tanggal" id="tanggal" required>
+        </div>
+
+        <!-- Lokasi Kejadian -->
+        <div class="mb-3">
+            <label for="lokasi" class="form-label">Lokasi Kejadian</label>
+            <input type="text" class="form-control" name="lokasi" id="lokasi" placeholder="Contoh: Kantor Desa A">
+        </div>
+
+        <!-- Anonim Checkbox -->
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" name="anonim" id="anonim">
+            <label class="form-check-label" for="anonim">Melapor secara Anonim</label>
+        </div>
+
+        <!-- Nama & Kontak: dibungkus supaya bisa dikontrol -->
+        <div id="identitasFields" class="fade-toggle visible">
+            <div class="mb-3">
+                <label for="nama" class="form-label">Nama Pelapor</label>
+                <input type="text" class="form-control" name="nama" id="nama">
+            </div>
+            <div class="mb-3">
+                <label for="kontak" class="form-label">Kontak (Email/No Tlp)</label>
+                <input type="text" class="form-control" name="kontak" id="kontak" placeholder="contoh@gmail.com / 08123456789">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kirim Laporan</button>
+    </form>
+
+    <script>
+        const anonimCheckbox = document.getElementById('anonim');
+        const identitasFields = document.getElementById('identitasFields');
+
+        anonimCheckbox.addEventListener('change', () => {
+            if (anonimCheckbox.checked) {
+                identitasFields.classList.remove('visible');
+                identitasFields.classList.add('hidden');
+            } else {
+                identitasFields.classList.remove('hidden');
+                identitasFields.classList.add('visible');
+            }
+        });
+    </script>
+
+    {% if success %}
+    <script>
+        alert("Laporan Anda telah diterima, terima kasih sudah melapor.");
+    </script>
+    {% endif %}
+
+</body>
+</html>
