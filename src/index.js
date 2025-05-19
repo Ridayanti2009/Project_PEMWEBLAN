@@ -1,9 +1,12 @@
 import http from 'http';
+import read from './utils/read.js';
+
+const home=await read('./src/page/home.html');
 
 const server = http.createServer((req, res) => {
   console.log(req.url, req.method);
   res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.write("Hello, World!");
+  res.write(home);
   res.end();
 });
 
