@@ -9,9 +9,8 @@ const __dirname = path.dirname(__filename);
 
 export const route = {
   '/': async (req, res) => {
-    const html = await readFile(path.join(__dirname, '../page/login.html'), 'utf-8');
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(html);
+  res.writeHead(302, { Location: '/login' });
+  res.end();
   },
 
   '/login': async (req, res) => {
