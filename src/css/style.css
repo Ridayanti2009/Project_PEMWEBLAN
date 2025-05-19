@@ -1,0 +1,80 @@
+body {
+    background-color: #f0f8ff; /* biru muda lembut */
+    font-family: 'poppins', sans-serif;
+    color: #0a1f44;
+}
+
+h2 {
+    color: #004080;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+}
+
+p {
+    color: #004080;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.form-logo {
+    height: 70px;
+    display: block;
+    margin-left: 10px; /* posisi ke kiri */
+    margin-bottom: 20px;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 85, 255, 0.1);
+    max-width: 700px;
+    margin: auto;
+}
+
+label.form-label {
+    font-weight: bold;
+    color: #003366;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #cce0ff;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #3399ff;
+    box-shadow: 0 0 0 0.15rem rgba(51, 153, 255, 0.25);
+}
+
+button.btn-primary {
+    background-color: #0066cc;
+    border-color: #005cbf;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-primary:hover {
+    background-color: #004c99;
+    border-color: #003366;
+}
+
+.hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.visible {
+    opacity: 1;
+    height: auto;
+}

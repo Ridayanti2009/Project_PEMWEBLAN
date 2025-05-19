@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>WhistleBlowing Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/user.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
 </head>
     
 <body class="container mt-5">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="form-logo">
+    <img src="/images/logo.png" alt="Logo" class="form-logo">
     <h2><strong>WBS (Whistleblowing System) - Bersama Jaga Integritas</strong></h2>
     <p class="lead">Silakan isi form di bawah ini untuk melaporkan kejadian yang mencurigakan.</p>
     <form method="POST" action="/submit" enctype="multipart/form-data">
