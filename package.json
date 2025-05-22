@@ -15,6 +15,8 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "formidable": "^3.5.4",
+    "mysql2": "^3.14.1",
     "project_pemweblan": "file:"
   }
 }

@@ -3,14 +3,24 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import read from './utils/read.js';
+import formidable from 'formidable';
+import mysql from 'mysql2/promise';
 
-// Mengubah __dirname untuk ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Baca halaman HTML statis
 const home = await read('./src/page/home.html');
 
-// Fungsi untuk menentukan tipe konten berdasarkan ekstensi file
+// Buat koneksi pool ke MySQL
+const db = await mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '', // sesuaikan
+  database: 'wbs_pemweb'
+});
+
+// Dapatkan content type
 const getContentType = (filePath) => {
   const extname = path.extname(filePath).toLowerCase();
   const contentTypes = {
@@ -24,49 +34,84 @@ const getContentType = (filePath) => {
     '.gif': 'image/gif',
     '.svg': 'image/svg+xml'
   };
-  
   return contentTypes[extname] || 'application/octet-stream';
 };
 
+// Buat server
 const server = http.createServer((req, res) => {
   console.log(req.url, req.method);
-  
-  // Menangani permintaan CSS
+
+  // CSS
   if (req.url.startsWith('/css/')) {
     const filePath = path.join(__dirname, req.url);
-    fs.readFile(filePath, (err, data) => {
+    return fs.readFile(filePath, (err, data) => {
       if (err) {
-        console.error('Error reading CSS file:', err);
         res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('File CSS tidak ditemukan');
-        return;
+        return res.end('CSS tidak ditemukan');
       }
-      
       res.writeHead(200, { 'Content-Type': 'text/css' });
-      res.end(data);
+      return res.end(data);
     });
-    return;
   }
-  
-  // Menangani permintaan gambar
+
+  // Gambar
   if (req.url.startsWith('/images/')) {
     const filePath = path.join(__dirname, req.url);
-    fs.readFile(filePath, (err, data) => {
+    return fs.readFile(filePath, (err, data) => {
       if (err) {
-        console.error('Error reading image file:', err);
         res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('File gambar tidak ditemukan');
-        return;
+        return res.end('Gambar tidak ditemukan');
       }
-      
       const contentType = getContentType(filePath);
       res.writeHead(200, { 'Content-Type': contentType });
-      res.end(data);
+      return res.end(data);
+    });
+  }
+
+  // Menangani form POST
+  if (req.method === 'POST' && req.url === '/submit') {
+    const form = formidable({ multiples: false });
+
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        return res.end('Terjadi kesalahan saat memproses formulir');
+      }
+
+      try {
+        // Ambil data dari form
+        const kategori = fields.kategori;
+        const judul = fields.judul;
+        const isi = fields.isi;
+        const tanggal = fields.tanggal;
+        const lokasi = fields.lokasi || '';
+        const nama = fields.nama || null;
+        const kontak = fields.kontak || null;
+        const anonim = fields.anonim ? 1 : 0;
+
+        // Ambil bukti file sebagai buffer
+        const buktiFile = files.bukti?.[0] || files.bukti;
+        const buktiBuffer = fs.readFileSync(buktiFile.filepath);
+
+        // Simpan ke DB
+        await db.query(`
+          INSERT INTO laporan 
+          (kategori, judul, isi, bukti, tanggal, lokasi, nama, kontak, anonim) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [kategori, judul, isi, buktiBuffer, tanggal, lokasi, nama, kontak, anonim]);
+
+        res.writeHead(302, { Location: '/' }); // redirect
+        return res.end();
+      } catch (error) {
+        console.error('DB Error:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        return res.end('Gagal menyimpan data ke database');
+      }
     });
     return;
   }
-  
-  // Menangani permintaan halaman utama
+
+  // Halaman utama
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write(home);
   res.end();
