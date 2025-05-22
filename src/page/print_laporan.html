@@ -40,11 +40,8 @@
     </div>
     
     <div class="bukti-section">
-      {% if mimetype and mimetype.startswith('image/') %}
         <img src="{{ url_for('download_bukti', laporan_id=laporan.id) }}" alt="Preview" class="bukti-image">
-      {% else %}
         <i class="fas fa-file-alt" style="font-size: 48px; color: #0a1f44; margin-bottom: 10px;"></i><br>
-      {% endif %}
     
       <!-- Tambahkan pembungkus di bawah -->
       <div class="tombol-aksi">

@@ -23,18 +23,13 @@
 
         <div class="inbox">
             <h3>Laporan Baru (Status: dikaji)</h3>
-            {% if laporan_baru %}
-                {% for laporan in laporan_baru %}
                     <div class="laporan">
                         <strong>{{ laporan.judul }}</strong><br>
                         <em>{{ laporan.kategori }} - {{ laporan.tanggal }}</em><br>
                         Lokasi: {{ laporan.lokasi }}<br>
                         Nama: {% if laporan.anonim %}Anonim{% else %}{{ laporan.nama }}{% endif %}
                     </div>
-                {% endfor %}
-            {% else %}
                 <p>Tidak ada laporan baru.</p>
-            {% endif %}
         </div>
     </div>
 </body>

@@ -13,9 +13,7 @@
     <p><strong>Isi Laporan:</strong><br>{{ laporan.isi_dekripsi }}</p>
     <p><strong>Nama Pelapor:</strong> {{ laporan.nama_pelapor or 'Anonim' }}</p>
     <p><strong>Kontak:</strong> {{ laporan.kontak or 'Tidak Diisi' }}</p>
-    {% if laporan.bukti %}
         <p><strong>Bukti:</strong> <a href="{{ url_for('static', filename='bukti/' + laporan.bukti) }}" target="_blank">Lihat Bukti</a></p>
-    {% endif %}
 
     <form method="POST" action="/admin/laporan/{{ laporan.id }}/tandai">
         <button type="submit">Tandai Sudah Dibaca</button>

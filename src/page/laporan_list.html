@@ -31,7 +31,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in laporan %}
                     <tr>
                         <td style="text-align: center;">{{ loop.index }}</td>
                         <td style="text-align: center;">{{ row.tanggal }}</td>
@@ -53,7 +52,6 @@
                             </form>
                         </td>
                     </tr>
-                    {% endfor %}
                 </tbody>  
             </table>
         </div>
